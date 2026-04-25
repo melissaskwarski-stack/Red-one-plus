@@ -5,6 +5,10 @@ extends Node2D
 @export var knob_radius: float  = 30.0   # draggable knob radius
 @export var dead_zone: float    = 0.15   # fraction of base_radius ignored
 
+# ── Player binding ─────────────────────────────────────────────────────────────
+@export var controls_player_index: int = 0                             # informational label for the editor
+@export_node_path("CharacterBody2D") var target_player_path: NodePath  # drag the Player node here in the editor
+
 # ── Colors ─────────────────────────────────────────────────────────────────────
 @export var base_color: Color = Color(1, 1, 1, 0.25)
 @export var knob_color: Color = Color(1, 1, 1, 0.55)
@@ -19,6 +23,20 @@ var _knob_offset: Vector2 = Vector2.ZERO # current knob draw offset
 func _ready() -> void:
 	# Only show on touch-capable devices; hide on desktop.
 	visible = DisplayServer.is_touchscreen_available()
+
+
+# ── Player injection ───────────────────────────────────────────────────────────
+
+func _physics_process(_delta: float) -> void:
+	# Only inject when the joystick is actively pushed.
+	if _direction == Vector2.ZERO:
+		return
+	if target_player_path.is_empty():
+		return
+	var target := get_node_or_null(target_player_path)
+	if target == null:
+		return
+	target.inject_direction(_direction)
 
 
 # ── Touch input ────────────────────────────────────────────────────────────────

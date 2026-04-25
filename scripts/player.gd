@@ -11,6 +11,8 @@ extends CharacterBody2D
 # ── Internal state ────────────────────────────────────────────────────────────
 var _input_prefix: String = ""          # e.g. "p1_" → actions p1_move_up, etc.
 var _screen_rect: Rect2 = Rect2()
+var _injected_direction: Vector2 = Vector2.ZERO  # set each frame by VirtualJoystick
+var _has_injected_input: bool = false             # true if inject_direction() was called this frame
 
 # ── Sprite reference (optional tilt on movement) ──────────────────────────────
 @onready var _sprite: Sprite2D = $Sprite2D
@@ -34,14 +36,17 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_clamp_to_screen()
 	_tilt_sprite(direction)
+	# Reset each frame so the player falls back to keyboard if joystick stops calling inject.
+	_has_injected_input = false
 
 
 # ── Input ──────────────────────────────────────────────────────────────────────
 
 func _get_direction() -> Vector2:
-	# Reads from the action map using this player's prefix.
-	# Falls back to global actions (move_up, etc.) for P1 if prefix actions
-	# are missing, so the scene works out of the box with a single action set.
+	# Joystick input takes priority when it was injected this frame.
+	if _has_injected_input and _injected_direction != Vector2.ZERO:
+		return _injected_direction
+	# Fall back to keyboard / gamepad via the Input action map.
 	var right := _axis(_input_prefix + "move_right", _input_prefix + "move_left")
 	var down  := _axis(_input_prefix + "move_down",  _input_prefix + "move_up")
 	return Vector2(right, down).normalized()
@@ -80,9 +85,9 @@ func _tilt_sprite(direction: Vector2) -> void:
 # ── Public API (called by VirtualJoystick or other systems) ───────────────────
 
 ## Inject a direction from a virtual joystick or AI controller.
-## Call this every frame instead of (or alongside) keyboard input.
+## Called by VirtualJoystick every frame it has active input.
 func inject_direction(dir: Vector2) -> void:
-	# Overrides _get_direction for this frame if you store it in a variable.
-	# (Extend this if you need full joystick override; currently keyboard
-	#  + joystick are additive via the Input singleton actions.)
-	pass
+	# _has_injected_input is reset at the end of _physics_process, so if the
+	# joystick stops calling this, the player automatically falls back to keyboard.
+	_injected_direction = dir
+	_has_injected_input = true
