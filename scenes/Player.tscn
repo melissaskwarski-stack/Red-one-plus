@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://player001"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(40, 20)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_player"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:health")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath(".:is_dead")
+properties/3/spawn = true
+properties/3/sync = true
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_player")
+
+[node name="Sprite2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(20, 0, -20, -10, -20, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="GunPoint" type="Marker2D" parent="."]
+position = Vector2(20, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_player")

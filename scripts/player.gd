@@ -62,7 +62,7 @@ func _handle_shooting() -> void:
 	_shoot_cooldown -= get_physics_process_delta_time()
 	if Input.is_key_pressed(KEY_SPACE) and _shoot_cooldown <= 0.0:
 		_shoot_cooldown = SHOOT_COOLDOWN
-		_fire_bullet.rpc(global_position, player_id)
+		_fire_bullet.rpc($GunPoint.global_position, player_id)
 
 
 @rpc("any_peer", "call_local", "reliable")
