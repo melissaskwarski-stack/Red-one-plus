@@ -3,75 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RED ONE PLUS - Choose Your Aircraft</title>
+    <title>RED ONE+ — Pilot Selection</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Select Aircraft</h1>
-    
+
+    <header class="title-group">
+        <div class="eyebrow">RED ONE+</div>
+        <h1>Select Aircraft</h1>
+    </header>
+
     <div class="selection-container">
+
         <!-- Crimson Ace -->
         <div class="char-card card-red" id="crimson-ace">
-            <img src="assets/red_plane.png" alt="Crimson Ace">
-            <div class="char-info">
-                <div class="char-name">Crimson Ace</div>
-                <div class="char-archetype">Speedster</div>
-                <div class="char-skill">
-                    <span>⚡ Afterburner</span>
+            <div class="card-inner">
+                <div class="plane-display">
+                    <img src="assets/red_plane.png" alt="Crimson Ace" data-rotate="180">
                 </div>
-                <div class="stats-container">
-                    <div class="stat-row"><span>Speed</span><span>95%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 95%; background: var(--primary-red);"></div></div>
-                    <div class="stat-row"><span>Shield</span><span>40%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 40%; background: var(--primary-red);"></div></div>
-                    <div class="stat-row"><span>Attack</span><span>60%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 60%; background: var(--primary-red);"></div></div>
+                <div class="char-info">
+                    <div class="char-name">Crimson Ace</div>
+                    <div class="char-archetype">Speedster</div>
+                    <div class="char-skill">
+                        <div class="skill-icon-wrap">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.09 12.64A1 1 0 005 14h5.5l-1 8 8.91-10.64A1 1 0 0018 10h-5.5L13 2z"/></svg>
+                        </div>
+                        <div class="skill-meta">
+                            <div class="skill-name-text">Afterburner</div>
+                            <div class="skill-cd">10s cooldown</div>
+                        </div>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-row"><span>Speed</span><span class="stat-value">95</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="95" style="background:var(--primary-red);"></div></div>
+                        <div class="stat-row"><span>Shield</span><span class="stat-value">40</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="40" style="background:var(--primary-red);"></div></div>
+                        <div class="stat-row"><span>Attack</span><span class="stat-value">60</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="60" style="background:var(--primary-red);"></div></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Azure Guardian -->
         <div class="char-card card-blue" id="azure-guardian">
-            <img src="assets/blue_plane.png" alt="Azure Guardian">
-            <div class="char-info">
-                <div class="char-name">Azure Guardian</div>
-                <div class="char-archetype">Defender</div>
-                <div class="char-skill">
-                    <span>🛡️ Plasma Shield</span>
+            <div class="card-inner">
+                <div class="plane-display">
+                    <img src="assets/blue_plane.png" alt="Azure Guardian">
                 </div>
-                <div class="stats-container">
-                    <div class="stat-row"><span>Speed</span><span>65%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 65%; background: var(--primary-blue);"></div></div>
-                    <div class="stat-row"><span>Shield</span><span>90%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 90%; background: var(--primary-blue);"></div></div>
-                    <div class="stat-row"><span>Attack</span><span>50%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 50%; background: var(--primary-blue);"></div></div>
+                <div class="char-info">
+                    <div class="char-name">Azure Guardian</div>
+                    <div class="char-archetype">Defender</div>
+                    <div class="char-skill">
+                        <div class="skill-icon-wrap">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.5C17.25 22.15 21 17.25 21 12V7l-9-5z"/></svg>
+                        </div>
+                        <div class="skill-meta">
+                            <div class="skill-name-text">Plasma Shield</div>
+                            <div class="skill-cd">15s cooldown</div>
+                        </div>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-row"><span>Speed</span><span class="stat-value">65</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="65" style="background:var(--primary-blue);"></div></div>
+                        <div class="stat-row"><span>Shield</span><span class="stat-value">90</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="90" style="background:var(--primary-blue);"></div></div>
+                        <div class="stat-row"><span>Attack</span><span class="stat-value">50</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="50" style="background:var(--primary-blue);"></div></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Gilded Striker -->
         <div class="char-card card-gold" id="gilded-striker">
-            <img src="assets/gold_plane.png" alt="Gilded Striker">
-            <div class="char-info">
-                <div class="char-name">Gilded Striker</div>
-                <div class="char-archetype">Heavy Hitter</div>
-                <div class="char-skill">
-                    <span>🔫 Multi-Barrage</span>
+            <div class="card-inner">
+                <div class="plane-display">
+                    <img src="assets/gold_plane.png" alt="Gilded Striker">
                 </div>
-                <div class="stats-container">
-                    <div class="stat-row"><span>Speed</span><span>50%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 50%; background: var(--primary-gold);"></div></div>
-                    <div class="stat-row"><span>Shield</span><span>60%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 60%; background: var(--primary-gold);"></div></div>
-                    <div class="stat-row"><span>Attack</span><span>95%</span></div>
-                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 95%; background: var(--primary-gold);"></div></div>
+                <div class="char-info">
+                    <div class="char-name">Gilded Striker</div>
+                    <div class="char-archetype">Heavy Hitter</div>
+                    <div class="char-skill">
+                        <div class="skill-icon-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                                <circle cx="12" cy="12" r="3"/>
+                                <line x1="12" y1="2" x2="12" y2="7"/>
+                                <line x1="12" y1="17" x2="12" y2="22"/>
+                                <line x1="2" y1="12" x2="7" y2="12"/>
+                                <line x1="17" y1="12" x2="22" y2="12"/>
+                            </svg>
+                        </div>
+                        <div class="skill-meta">
+                            <div class="skill-name-text">Multi-Barrage</div>
+                            <div class="skill-cd">8s cooldown</div>
+                        </div>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-row"><span>Speed</span><span class="stat-value">50</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="50" style="background:var(--primary-gold);"></div></div>
+                        <div class="stat-row"><span>Shield</span><span class="stat-value">60</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="60" style="background:var(--primary-gold);"></div></div>
+                        <div class="stat-row"><span>Attack</span><span class="stat-value">95</span></div>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="95" style="background:var(--primary-gold);"></div></div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <button class="select-btn" id="start-game">Initiate Mission</button>
