@@ -1,0 +1,54 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#0d1b2a;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#1b263b;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#0d1b2a;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="armor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#415a77;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#1b263b;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="shield-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#00d2ff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#00d2ff;stop-opacity:0" />
+        </radialGradient>
+        <filter id="shadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="10" flood-opacity="0.6"/>
+        </filter>
+    </defs>
+
+    <!-- Main Body (Wide/Armored) -->
+    <path d="M256 60 L180 140 L180 380 L256 440 L332 380 L332 140 Z" fill="url(#blue-grad)" filter="url(#shadow)" />
+    <rect x="210" y="160" width="92" height="180" rx="10" fill="url(#armor-grad)" opacity="0.5" />
+
+    <!-- Wings (Sturdy/Geometric) -->
+    <path d="M180 180 L50 200 L40 380 L180 350 Z" fill="#0b132b" />
+    <path d="M332 180 L462 200 L472 380 L332 350 Z" fill="#0b132b" />
+    
+    <path d="M180 190 L65 210 L60 360 L180 340 Z" fill="url(#blue-grad)" />
+    <path d="M332 190 L447 210 L452 360 L332 340 Z" fill="url(#blue-grad)" />
+
+    <!-- Shield Projectors (Circular) -->
+    <circle cx="100" cy="280" r="25" fill="#1b263b" stroke="#415a77" stroke-width="2" />
+    <circle cx="412" cy="280" r="25" fill="#1b263b" stroke="#415a77" stroke-width="2" />
+    
+    <circle cx="100" cy="280" r="15" fill="url(#shield-glow)" opacity="0.6">
+        <animate attributeName="r" values="10;18;10" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="412" cy="280" r="15" fill="url(#shield-glow)" opacity="0.6">
+        <animate attributeName="r" values="10;18;10" dur="3.2s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.2s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Engines -->
+    <path d="M210 420 L230 460 L282 460 L302 420 Z" fill="#0a0a0a" />
+    <rect x="235" y="430" width="42" height="15" fill="#00d2ff" opacity="0.4">
+        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="2s" repeatCount="indefinite" />
+    </rect>
+
+    <!-- Cockpit (Reinforced) -->
+    <path d="M230 110 Q256 90 282 110 L282 150 Q256 160 230 150 Z" fill="#0d1b2a" />
+    <path d="M240 115 Q256 105 272 115 L272 140 Q256 145 240 140 Z" fill="#3a506b" opacity="0.6" />
+</svg>

@@ -1,0 +1,50 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="red-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#990000;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#660000;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="charcoal-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#333333;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#111111;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="engine-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#ff0000;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#ff0000;stop-opacity:0" />
+        </radialGradient>
+        <filter id="shadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.5"/>
+        </filter>
+    </defs>
+
+    <!-- Main Body -->
+    <path d="M256 20 L220 100 L230 400 L256 460 L282 400 L292 100 Z" fill="url(#red-grad)" filter="url(#shadow)" />
+    <path d="M256 40 L240 110 L245 380 L256 430 L267 380 L272 110 Z" fill="url(#charcoal-grad)" opacity="0.4" />
+
+    <!-- Wings (Sleek/Forward Swept) -->
+    <path d="M230 150 L80 80 L60 150 L230 250 Z" fill="#440000" />
+    <path d="M282 150 L432 80 L452 150 L282 250 Z" fill="#440000" />
+    
+    <path d="M230 160 L90 100 L75 160 L230 240 Z" fill="url(#red-grad)" />
+    <path d="M282 160 L422 100 L437 160 L282 240 Z" fill="url(#red-grad)" />
+
+    <!-- Tail Fins -->
+    <path d="M240 380 L180 440 L180 480 L240 460 Z" fill="#330000" />
+    <path d="M272 380 L332 440 L332 480 L272 460 Z" fill="#330000" />
+
+    <!-- Thrusters -->
+    <rect x="235" y="440" width="12" height="30" rx="6" fill="#111" />
+    <rect x="265" y="440" width="12" height="30" rx="6" fill="#111" />
+    
+    <circle cx="241" cy="460" r="10" fill="url(#engine-glow)" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="0.08s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="271" cy="460" r="10" fill="url(#engine-glow)" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="0.07s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Cockpit -->
+    <ellipse cx="256" cy="110" rx="12" ry="35" fill="#102030" />
+    <ellipse cx="256" cy="100" rx="6" ry="18" fill="#4080c0" opacity="0.5" />
+</svg>

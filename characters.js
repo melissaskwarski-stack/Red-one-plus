@@ -2,7 +2,7 @@ export const characters = {
     'crimson-ace': {
         name: 'Crimson Ace',
         archetype: 'Speedster',
-        color: '#ff4d4d',
+        color: '#990000',
         stats: {
             speed: 95,
             shield: 40,
@@ -10,14 +10,14 @@ export const characters = {
         },
         skill: {
             name: 'Afterburner',
-            description: 'Temporary massive speed boost with a trail effect.',
+            description: 'Massive thrust surge from dual rear engines.',
             cooldown: 10
         }
     },
     'azure-guardian': {
         name: 'Azure Guardian',
         archetype: 'Defender',
-        color: '#00d2ff',
+        color: '#102a43',
         stats: {
             speed: 65,
             shield: 90,
@@ -25,14 +25,14 @@ export const characters = {
         },
         skill: {
             name: 'Plasma Shield',
-            description: 'Absorbs one hit or lasts for 3 seconds.',
+            description: 'Activates circular wing-mounted energy generators.',
             cooldown: 15
         }
     },
     'gilded-striker': {
         name: 'Gilded Striker',
         archetype: 'Heavy Hitter',
-        color: '#ffd700',
+        color: '#7e6c56',
         stats: {
             speed: 50,
             shield: 60,
@@ -40,7 +40,7 @@ export const characters = {
         },
         skill: {
             name: 'Multi-Barrage',
-            description: 'Shoots three projectiles in a spread pattern.',
+            description: 'Fires heavy dual-mounted wing cannons.',
             cooldown: 8
         }
     }
