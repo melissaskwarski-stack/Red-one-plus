@@ -22,3 +22,10 @@ signal wave_completed(wave_number: int)
 signal score_changed(new_score: int)
 signal game_over()
 signal game_won()
+
+# Networking
+signal player_health_updated(player_id: int, health_remaining: int)
+signal enemy_destroyed(position: Vector2)
+signal level_complete()
+signal player_connected(player_id: int)
+signal player_disconnected(player_id: int)
