@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RED ONE PLUS - Choose Your Aircraft</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Select Aircraft</h1>
+    
+    <div class="selection-container">
+        <!-- Crimson Ace -->
+        <div class="char-card card-red" id="crimson-ace">
+            <img src="assets/red_plane.png" alt="Crimson Ace">
+            <div class="char-info">
+                <div class="char-name">Crimson Ace</div>
+                <div class="char-archetype">Speedster</div>
+                <div class="char-skill">
+                    <span>⚡ Afterburner</span>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-row"><span>Speed</span><span>95%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 95%; background: var(--primary-red);"></div></div>
+                    <div class="stat-row"><span>Shield</span><span>40%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 40%; background: var(--primary-red);"></div></div>
+                    <div class="stat-row"><span>Attack</span><span>60%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 60%; background: var(--primary-red);"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Azure Guardian -->
+        <div class="char-card card-blue" id="azure-guardian">
+            <img src="assets/blue_plane.png" alt="Azure Guardian">
+            <div class="char-info">
+                <div class="char-name">Azure Guardian</div>
+                <div class="char-archetype">Defender</div>
+                <div class="char-skill">
+                    <span>🛡️ Plasma Shield</span>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-row"><span>Speed</span><span>65%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 65%; background: var(--primary-blue);"></div></div>
+                    <div class="stat-row"><span>Shield</span><span>90%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 90%; background: var(--primary-blue);"></div></div>
+                    <div class="stat-row"><span>Attack</span><span>50%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 50%; background: var(--primary-blue);"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gilded Striker -->
+        <div class="char-card card-gold" id="gilded-striker">
+            <img src="assets/gold_plane.png" alt="Gilded Striker">
+            <div class="char-info">
+                <div class="char-name">Gilded Striker</div>
+                <div class="char-archetype">Heavy Hitter</div>
+                <div class="char-skill">
+                    <span>🔫 Multi-Barrage</span>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-row"><span>Speed</span><span>50%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 50%; background: var(--primary-gold);"></div></div>
+                    <div class="stat-row"><span>Shield</span><span>60%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 60%; background: var(--primary-gold);"></div></div>
+                    <div class="stat-row"><span>Attack</span><span>95%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: 95%; background: var(--primary-gold);"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="select-btn" id="start-game">Initiate Mission</button>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
