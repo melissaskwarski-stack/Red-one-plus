@@ -2,8 +2,15 @@
 # Aircraft CharacterBody2D — free 2D movement, networked, shoots bullets
 extends CharacterBody2D
 
-const SPEED       := 300.0
+const SPEED        := 300.0
 const BULLET_SCENE := preload("res://scenes/Bullet.tscn")
+
+# Plane sprites — one per player_id, sourced from powers-and-effects branch
+const PLANE_TEXTURES := {
+	1: preload("res://assets/planes/red_plane.png"),
+	2: preload("res://assets/planes/blue_plane.png"),
+	3: preload("res://assets/planes/gold_plane.png"),
+}
 
 # Set by Level1 after spawning — drives color and authority
 var player_id: int = 1
@@ -18,8 +25,8 @@ func _ready() -> void:
 	# Only the owning peer drives this node's input
 	set_multiplayer_authority(player_id)
 
-	# Tint the plane sprite to the player's assigned color
-	$Sprite2D.modulate = NetworkManager.get_player_color(player_id)
+	# Apply the character's plane sprite (replaces placeholder Polygon2D)
+	$Sprite2D.texture = PLANE_TEXTURES[player_id]
 
 	# Register in group so enemies can locate the nearest target
 	add_to_group("players")
