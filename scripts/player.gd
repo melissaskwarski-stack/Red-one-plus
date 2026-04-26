@@ -21,6 +21,9 @@ func _ready() -> void:
 	# Tint the plane sprite to the player's assigned color
 	$Sprite2D.modulate = NetworkManager.get_player_color(player_id)
 
+	# Register in group so enemies can locate the nearest target
+	add_to_group("players")
+
 
 # ── Per-frame ─────────────────────────────────────────────────────────────────
 

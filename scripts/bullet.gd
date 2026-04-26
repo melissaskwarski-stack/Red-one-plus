@@ -22,8 +22,9 @@ func _ready() -> void:
 # ── Movement ──────────────────────────────────────────────────────────────────
 
 func _process(delta: float) -> void:
-	# Fly right — no gravity, no physics body needed
-	position += Vector2.RIGHT * SPEED * delta
+	# Travel along local forward axis — rotation set at spawn time.
+	# Player bullets (rotation 0) fly right; enemy bullets aim at nearest player.
+	position += transform.x * SPEED * delta
 
 
 # ── Collision ─────────────────────────────────────────────────────────────────
