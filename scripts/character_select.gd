@@ -15,6 +15,12 @@ const CHARACTER_STATS := {
 	3: {char_name = "Gilded Striker", speed_px = 250, max_health = 4, attack = 95, color = Color(1.0, 0.82, 0.25)},
 }
 
+# Card dimensions — tuned so 3 cards fit comfortably in a 1152px-wide window.
+const CARD_WIDTH      := 300
+const CARD_HEIGHT     := 420
+const SPRITE_HEIGHT   := 200
+const CARDS_SEPARATION := 30
+
 var _status_label: Label
 var _selected: bool = false
 
@@ -29,17 +35,22 @@ func _ready() -> void:
 # ── UI construction ───────────────────────────────────────────────────────────
 
 func _build_ui() -> void:
-	# Dark background
+	# Dark space-style background
 	var bg := ColorRect.new()
 	bg.color = Color(0.04, 0.04, 0.12)
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
-	# Root vbox — fills the screen
-	var root := VBoxContainer.new()
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_theme_constant_override("separation", 24)
-	add_child(root)
+	# CenterContainer keeps everything centered regardless of window size
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(center)
+
+	# Vertical column: title → cards row → status
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 30)
+	col.alignment = BoxContainer.ALIGNMENT_CENTER
+	center.add_child(col)
 
 	# Title
 	var title := Label.new()
@@ -47,15 +58,13 @@ func _build_ui() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 36)
 	title.add_theme_color_override("font_color", Color.WHITE)
-	root.add_child(title)
+	col.add_child(title)
 
 	# Cards row
 	var cards_row := HBoxContainer.new()
-	cards_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cards_row.size_flags_vertical   = Control.SIZE_EXPAND_FILL
-	cards_row.alignment             = BoxContainer.ALIGNMENT_CENTER
-	cards_row.add_theme_constant_override("separation", 48)
-	root.add_child(cards_row)
+	cards_row.add_theme_constant_override("separation", CARDS_SEPARATION)
+	cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	col.add_child(cards_row)
 
 	for char_id in [1, 2, 3]:
 		cards_row.add_child(_build_card(char_id))
@@ -65,37 +74,38 @@ func _build_ui() -> void:
 	_status_label.text = ""
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_status_label.add_theme_font_size_override("font_size", 18)
-	_status_label.add_theme_color_override("font_color", Color(0.8, 0.8, 0.8))
-	root.add_child(_status_label)
+	_status_label.add_theme_color_override("font_color", Color(0.85, 0.85, 0.85))
+	col.add_child(_status_label)
 
 
 func _build_card(char_id: int) -> Control:
 	var stats: Dictionary = CHARACTER_STATS[char_id]
 
 	var card := PanelContainer.new()
-	card.custom_minimum_size = Vector2(210, 320)
+	card.custom_minimum_size = Vector2(CARD_WIDTH, CARD_HEIGHT)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 10)
+	vbox.add_theme_constant_override("separation", 12)
 	card.add_child(vbox)
 
-	# Plane sprite
+	# Plane sprite — IGNORE_SIZE prevents the 1024×1024 texture from
+	# blowing up the card. STRETCH_KEEP_ASPECT_CENTERED scales it to fit.
 	var tex := TextureRect.new()
 	tex.texture                 = PLANE_TEXTURES[char_id]
+	tex.expand_mode             = TextureRect.EXPAND_IGNORE_SIZE
 	tex.stretch_mode            = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tex.custom_minimum_size     = Vector2(190, 130)
-	tex.size_flags_horizontal   = Control.SIZE_EXPAND_FILL
+	tex.custom_minimum_size     = Vector2(CARD_WIDTH - 20, SPRITE_HEIGHT)
 	vbox.add_child(tex)
 
-	# Character name
+	# Character name (colored by faction)
 	var name_lbl := Label.new()
 	name_lbl.text                      = stats.char_name
 	name_lbl.horizontal_alignment      = HORIZONTAL_ALIGNMENT_CENTER
-	name_lbl.add_theme_font_size_override("font_size", 20)
+	name_lbl.add_theme_font_size_override("font_size", 22)
 	name_lbl.add_theme_color_override("font_color", stats.color)
 	vbox.add_child(name_lbl)
 
-	# Stats
+	# Stats rows
 	for pair in [
 		["Speed",  "%d px/s" % stats.speed_px],
 		["Health", "%d HP"   % stats.max_health],
@@ -104,12 +114,14 @@ func _build_card(char_id: int) -> Control:
 		var lbl := Label.new()
 		lbl.text                 = "%s:  %s" % [pair[0], pair[1]]
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.add_theme_font_size_override("font_size", 16)
 		vbox.add_child(lbl)
 
 	# Select button
 	var btn := Button.new()
 	btn.text = "SELECT"
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.add_theme_font_size_override("font_size", 18)
 	btn.pressed.connect(_on_select.bind(char_id))
 	vbox.add_child(btn)
 
