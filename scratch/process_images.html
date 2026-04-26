@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <canvas id="c"></canvas>
+    <script>
+        async function process(src, filename) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => {
+                    const c = document.getElementById('c');
+                    const ctx = c.getContext('2d');
+                    c.width = img.width;
+                    c.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    const imageData = ctx.getImageData(0, 0, c.width, c.height);
+                    const data = imageData.data;
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i], g = data[i+1], b = data[i+2];
+                        // If very bright (white-ish)
+                        if (r > 240 && g > 240 && b > 240) {
+                            data[i+3] = 0; // Transparent
+                        }
+                    }
+                    ctx.putImageData(imageData, 0, 0);
+                    const dataUrl = c.toDataURL("image/png");
+                    
+                    const div = document.createElement('div');
+                    div.id = filename;
+                    div.innerText = dataUrl;
+                    document.body.appendChild(div);
+                    resolve();
+                };
+                img.src = src;
+            });
+        }
+
+        async function start() {
+            await process("../assets/red_plane.png", "red_data");
+            await process("../assets/blue_plane.png", "blue_data");
+            await process("../assets/gold_plane.png", "gold_data");
+            const done = document.createElement('div');
+            done.id = "done";
+            document.body.appendChild(done);
+        }
+        start();
+    </script>
+</body>
+</html>

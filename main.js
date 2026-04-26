@@ -1,44 +1,5 @@
 import { characters } from './characters.js';
 
-// ── Remove white PNG backgrounds ─────────────────────────────────────────────
-function removeWhiteBg(img) {
-    const process = () => {
-        if (img.src.endsWith('.svg')) return;
-        const deg = parseInt(img.dataset.rotate || '0');
-        const c = document.createElement('canvas');
-        // Swap dimensions for 90/270 rotations (not needed for 180 but handles future cases)
-        c.width  = (deg % 180 === 0) ? img.naturalWidth  : img.naturalHeight;
-        c.height = (deg % 180 === 0) ? img.naturalHeight : img.naturalWidth;
-        const ctx = c.getContext('2d');
-        ctx.translate(c.width / 2, c.height / 2);
-        ctx.rotate(deg * Math.PI / 180);
-        ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2);
-        ctx.resetTransform();
-        const id = ctx.getImageData(0, 0, c.width, c.height);
-        const d = id.data;
-        for (let i = 0; i < d.length; i += 4) {
-            const r = d[i], g = d[i + 1], b = d[i + 2];
-            const max = Math.max(r, g, b);
-            const min = Math.min(r, g, b);
-            const avg = (r + g + b) / 3;
-            // Saturation: 0 = pure gray/white, 1 = fully saturated colour
-            const sat = max > 0 ? (max - min) / max : 0;
-            // Target only bright + low-saturation pixels (white / near-white)
-            // This leaves coloured pixels (gold, red, blue) completely untouched
-            if (avg > 180 && sat < 0.18) {
-                const fade = Math.min(1, (avg - 180) / 75); // 0→1 as avg goes 180→255
-                d[i + 3] = Math.round(d[i + 3] * (1 - fade));
-            }
-        }
-        ctx.putImageData(id, 0, 0);
-        img.src = c.toDataURL('image/png');
-    };
-    if (img.complete && img.naturalWidth) process();
-    else img.addEventListener('load', process, { once: true });
-}
-
-document.querySelectorAll('.plane-display img').forEach(removeWhiteBg);
-
 // ── Starfield ────────────────────────────────────────────────────────────────
 const canvas = document.createElement('canvas');
 canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;';
