@@ -71,11 +71,11 @@ func _tick_shoot(delta: float) -> void:
 
 
 func _shoot_at_nearest_player() -> void:
-	var target: Node = _get_nearest_player()
+	var target: Node2D = _get_nearest_player() as Node2D
 	if target == null:
 		return
 
-	var dir := (target.global_position - global_position).normalized()
+	var dir: Vector2 = (target.global_position - global_position).normalized()
 
 	var bullet: Node = BULLET_SCENE.instantiate()
 	bullet.global_position = global_position

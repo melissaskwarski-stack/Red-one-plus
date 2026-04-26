@@ -29,7 +29,7 @@ func _ready() -> void:
 	add_child(HUD_SCENE.instantiate())
 
 	# Spawn players for however many are connected (min 1 for solo testing)
-	var connected := max(NetworkManager.player_ids.size(), 1)
+	var connected: int = maxi(NetworkManager.player_ids.size(), 1)
 	for i in range(connected):
 		_spawn_player(i + 1)
 
@@ -123,5 +123,5 @@ func _update_camera() -> void:
 	for p in live:
 		spread = max(spread, avg.distance_to(p.global_position))
 
-	var target_zoom := clamp(300.0 / max(spread, 300.0), 0.4, 1.0)
+	var target_zoom: float = clamp(300.0 / max(spread, 300.0), 0.4, 1.0)
 	cam.zoom = cam.zoom.lerp(Vector2(target_zoom, target_zoom), 0.05)
