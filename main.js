@@ -1,5 +1,39 @@
 import { characters } from './characters.js';
 
+// ── Remove white PNG backgrounds (saturation-based chroma-key) ───────────────
+function removeWhiteBg(img) {
+    const process = () => {
+        const deg = parseInt(img.dataset.rotate || '0');
+        const sw = img.naturalWidth, sh = img.naturalHeight;
+        const cw = deg % 180 === 0 ? sw : sh;
+        const ch = deg % 180 === 0 ? sh : sw;
+        const c = document.createElement('canvas');
+        c.width = cw; c.height = ch;
+        const ctx2 = c.getContext('2d');
+        ctx2.translate(cw / 2, ch / 2);
+        ctx2.rotate(deg * Math.PI / 180);
+        ctx2.drawImage(img, -sw / 2, -sh / 2);
+        ctx2.resetTransform();
+        const id = ctx2.getImageData(0, 0, cw, ch);
+        const d = id.data;
+        for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i + 1], b = d[i + 2];
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const avg = (r + g + b) / 3;
+            const sat = max > 0 ? (max - min) / max : 0;
+            if (avg > 180 && sat < 0.18) {
+                const fade = Math.min(1, (avg - 180) / 75);
+                d[i + 3] = Math.round(d[i + 3] * (1 - fade));
+            }
+        }
+        ctx2.putImageData(id, 0, 0);
+        img.src = c.toDataURL('image/png');
+    };
+    if (img.complete && img.naturalWidth) process();
+    else img.addEventListener('load', process, { once: true });
+}
+document.querySelectorAll('.plane-display img').forEach(removeWhiteBg);
+
 // ── Starfield ────────────────────────────────────────────────────────────────
 const canvas = document.createElement('canvas');
 canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;';
