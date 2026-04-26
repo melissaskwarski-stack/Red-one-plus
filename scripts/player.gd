@@ -12,11 +12,21 @@ const PLANE_TEXTURES := {
 	3: preload("res://assets/planes/gold_plane.png"),
 }
 
+# Character stats ported from characters.js (powers-and-effects branch)
+# speed_px  = speed_stat * 5   (stat 50-95 → 250-475 px/s)
+# max_health = derived from shield stat: 40→3 hits, 60→4 hits, 90→5 hits
+const CHARACTER_STATS := {
+	1: {name = "Crimson Ace",     speed_px = 475, max_health = 3, attack = 60},
+	2: {name = "Azure Guardian",  speed_px = 325, max_health = 5, attack = 50},
+	3: {name = "Gilded Striker",  speed_px = 250, max_health = 4, attack = 95},
+}
+
 # Set by Level1 after spawning — drives color and authority
 var player_id: int = 1
 
-var health: int = 3
-var is_dead: bool = false
+var health: int      = 3     # overwritten in _ready() from CHARACTER_STATS
+var is_dead: bool    = false
+var _base_speed: float = 300.0  # set from CHARACTER_STATS in _ready()
 
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
@@ -24,6 +34,11 @@ var is_dead: bool = false
 func _ready() -> void:
 	# Only the owning peer drives this node's input
 	set_multiplayer_authority(player_id)
+
+	# Apply character stats for this player_id
+	var stats: Dictionary = CHARACTER_STATS[player_id]
+	_base_speed = float(stats.speed_px)
+	health       = stats.max_health
 
 	# Apply the character's plane sprite (replaces placeholder Polygon2D)
 	$Sprite2D.texture = PLANE_TEXTURES[player_id]
@@ -59,7 +74,7 @@ func _handle_movement() -> void:
 	if Input.is_action_pressed("ui_up") or Input.is_key_pressed(KEY_W):
 		dir.y -= 1.0
 
-	velocity = dir.normalized() * SPEED
+	velocity = dir.normalized() * _base_speed
 	move_and_slide()
 
 
