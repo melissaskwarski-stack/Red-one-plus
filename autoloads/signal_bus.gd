@@ -29,3 +29,6 @@ signal enemy_destroyed(position: Vector2)
 signal level_complete()
 signal player_connected(player_id: int)
 signal player_disconnected(player_id: int)
+
+# Skills
+signal skill_cooldown_updated(player_id: int, seconds_remaining: float)

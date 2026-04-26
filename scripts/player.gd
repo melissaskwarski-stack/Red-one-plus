@@ -24,9 +24,13 @@ const CHARACTER_STATS := {
 # Set by Level1 after spawning — drives color and authority
 var player_id: int = 1
 
-var health: int      = 3     # overwritten in _ready() from CHARACTER_STATS
-var is_dead: bool    = false
-var _base_speed: float = 300.0  # set from CHARACTER_STATS in _ready()
+var health: int        = 3      # overwritten in _ready() from CHARACTER_STATS
+var is_dead: bool      = false
+var _base_speed: float = 300.0  # set from CHARACTER_STATS, mutated by Afterburner
+
+# Skill state flags — written by skills.gd, read here
+var is_shielded: bool = false   # Plasma Shield: absorbs next hit
+var burst_mode: bool  = false   # Multi-Barrage: fires 3-shot spread
 
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
@@ -57,6 +61,7 @@ func _physics_process(delta: float) -> void:
 
 	_handle_movement()
 	_handle_shooting()
+	_handle_skill()
 
 
 # ── Movement ──────────────────────────────────────────────────────────────────
@@ -87,16 +92,30 @@ func _handle_shooting() -> void:
 	_shoot_cooldown -= get_physics_process_delta_time()
 	if Input.is_key_pressed(KEY_SPACE) and _shoot_cooldown <= 0.0:
 		_shoot_cooldown = SHOOT_COOLDOWN
-		_fire_bullet.rpc($GunPoint.global_position, player_id)
+		var origin: Vector2 = $GunPoint.global_position
+		if burst_mode:
+			# Multi-Barrage: 3 bullets in a spread (-15°, 0°, +15°)
+			for angle_deg in [-15.0, 0.0, 15.0]:
+				_fire_bullet.rpc(origin, player_id, deg_to_rad(angle_deg))
+		else:
+			_fire_bullet.rpc(origin, player_id, 0.0)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _fire_bullet(pos: Vector2, pid: int) -> void:
+func _fire_bullet(pos: Vector2, pid: int, angle_offset: float) -> void:
 	var bullet: Node = BULLET_SCENE.instantiate()
 	bullet.global_position = pos
-	bullet.player_id = pid
+	bullet.rotation        = angle_offset
+	bullet.player_id       = pid
 	get_tree().current_scene.add_child(bullet)
 	SignalBus.bullet_fired.emit(pid, pos)
+
+
+# ── Skill activation ──────────────────────────────────────────────────────────
+
+func _handle_skill() -> void:
+	if Input.is_key_pressed(KEY_SHIFT):
+		$Skills.try_activate()
 
 
 # ── Damage & Death ────────────────────────────────────────────────────────────
@@ -104,6 +123,11 @@ func _fire_bullet(pos: Vector2, pid: int) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func take_damage(amount: int) -> void:
 	if is_dead:
+		return
+
+	# Plasma Shield (Azure Guardian) — absorbs one hit then breaks
+	if is_shielded:
+		is_shielded = false
 		return
 
 	health -= amount

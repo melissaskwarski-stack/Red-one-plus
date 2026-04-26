@@ -38,6 +38,9 @@ modulate = Color(1, 0, 0, 1)
 text = "DEAD"
 visible = false
 
+[node name="P1Skill" type="Label" parent="P1Container"]
+text = "SHIFT: Afterburner"
+
 ; ── Player 2 — Blue ───────────────────────────────────────────────────────────
 
 [node name="P2Container" type="VBoxContainer" parent="."]
@@ -61,6 +64,9 @@ modulate = Color(1, 0, 0, 1)
 text = "DEAD"
 visible = false
 
+[node name="P2Skill" type="Label" parent="P2Container"]
+text = "SHIFT: Plasma Shield"
+
 ; ── Player 3 — Green ──────────────────────────────────────────────────────────
 
 [node name="P3Container" type="VBoxContainer" parent="."]
@@ -83,3 +89,6 @@ value = 3.0
 modulate = Color(1, 0, 0, 1)
 text = "DEAD"
 visible = false
+
+[node name="P3Skill" type="Label" parent="P3Container"]
+text = "SHIFT: Multi-Barrage"
