@@ -1,0 +1,53 @@
+name: Export Web + Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  export-and-deploy:
+    runs-on: ubuntu-latest
+
+    # godot-ci ships Godot 4.3 headless + all export templates pre-installed
+    container:
+      image: barichello/godot-ci:4.3
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      # ── 2. Cache Godot export templates ──────────────────────────────────────
+      - name: Move export templates into place
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          mv /root/.local/share/godot/export_templates/4.3.stable \
+             ~/.local/share/godot/export_templates/4.3.stable || true
+
+      # ── 3. Export to HTML5 ───────────────────────────────────────────────────
+      - name: Export Web build
+        run: |
+          mkdir -p web
+          godot --headless --export-release "Web" web/index.html
+          echo "Export complete — files in web/:"
+          ls -lh web/
+
+      # ── 4. Ensure _headers is present for Cloudflare ─────────────────────────
+      # (web/_headers is committed to the repo and included in the export dir)
+
+      # ── 5. Deploy to Cloudflare Pages ────────────────────────────────────────
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: red-one-plus
+          directory: web
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
