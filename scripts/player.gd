@@ -21,8 +21,11 @@ const CHARACTER_STATS := {
 	3: {name = "Gilded Striker",  speed_px = 250, max_health = 4, attack = 95},
 }
 
-# Set by Level1 after spawning — drives color and authority
+# Set by Level1 after spawning — drives network authority
 var player_id: int = 1
+
+# Set by Level1 from NetworkManager.character_choices — drives sprite + stats
+var character_id: int = 1
 
 var health: int        = 3      # overwritten in _ready() from CHARACTER_STATS
 var is_dead: bool      = false
@@ -39,13 +42,13 @@ func _ready() -> void:
 	# Only the owning peer drives this node's input
 	set_multiplayer_authority(player_id)
 
-	# Apply character stats for this player_id
-	var stats: Dictionary = CHARACTER_STATS[player_id]
+	# Apply character stats from the chosen character (not the network slot)
+	var stats: Dictionary = CHARACTER_STATS[character_id]
 	_base_speed = float(stats.speed_px)
 	health       = stats.max_health
 
-	# Apply the character's plane sprite (replaces placeholder Polygon2D)
-	$Sprite2D.texture = PLANE_TEXTURES[player_id]
+	# Apply the chosen character's plane sprite
+	$Sprite2D.texture = PLANE_TEXTURES[character_id]
 
 	# Register in group so enemies can locate the nearest target
 	add_to_group("players")

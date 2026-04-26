@@ -88,11 +88,22 @@ func _level_complete() -> void:
 
 func _spawn_player(pid: int) -> void:
 	var player: Node = PLAYER_SCENE.instantiate()
-	player.player_id = pid
+	player.player_id   = pid
+	# Look up the character this player chose; fall back to their slot number
+	player.character_id = _get_character_for_slot(pid)
 	player.global_position = PLAYER_SPAWNS[pid - 1]
 	player.name = "Player%d" % pid
 	add_child(player)
 	_players.append(player)
+
+
+func _get_character_for_slot(pid: int) -> int:
+	# Reverse-lookup peer_id from slot, then get their chosen character
+	for peer in NetworkManager.player_ids:
+		if NetworkManager.player_ids[peer] == pid:
+			return NetworkManager.character_choices.get(peer, pid)
+	# Solo play: choices use key=1 (no real peer_id), fall back to pid
+	return NetworkManager.character_choices.get(1, pid)
 
 
 func _on_player_died(player_id: int) -> void:

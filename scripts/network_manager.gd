@@ -11,6 +11,9 @@ var player_ids: Dictionary = {}
 # Local player's assigned slot (1-3)
 var local_player_id: int = 0
 
+# Maps peer_id -> character_id (1=Crimson Ace, 2=Azure Guardian, 3=Gilded Striker)
+var character_choices: Dictionary = {}
+
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -113,6 +116,44 @@ func _next_free_slot() -> int:
 		if slot not in used:
 			return slot
 	return -1
+
+
+# ── Character selection ───────────────────────────────────────────────────────
+
+## Called by CharacterSelect when the local player picks a character.
+## Works for solo (no peer), host, and clients.
+func submit_character_choice(character_id: int) -> void:
+	if not multiplayer.has_multiplayer_peer() or multiplayer.is_server():
+		# Solo or host: store directly and broadcast
+		var peer := multiplayer.get_unique_id() if multiplayer.has_multiplayer_peer() else 1
+		character_choices[peer] = character_id
+		if multiplayer.has_multiplayer_peer():
+			_broadcast_choices.rpc(character_choices)
+		SignalBus.character_choices_updated.emit()
+	else:
+		# Client: tell server, server will broadcast back
+		_client_submit_choice.rpc_id(1, character_id)
+
+
+@rpc("any_peer", "reliable")
+func _client_submit_choice(character_id: int) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender := multiplayer.get_remote_sender_id()
+	character_choices[sender] = character_id
+	_broadcast_choices.rpc(character_choices)
+
+
+@rpc("authority", "call_local", "reliable")
+func _broadcast_choices(choices: Dictionary) -> void:
+	character_choices = choices
+	SignalBus.character_choices_updated.emit()
+
+
+## Returns the character_id the local player chose, falling back to their slot.
+func get_my_character_id() -> int:
+	var peer := multiplayer.get_unique_id() if multiplayer.has_multiplayer_peer() else 1
+	return character_choices.get(peer, local_player_id if local_player_id > 0 else 1)
 
 
 func get_player_color(player_id: int) -> Color:

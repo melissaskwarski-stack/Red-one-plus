@@ -23,6 +23,9 @@ signal score_changed(new_score: int)
 signal game_over()
 signal game_won()
 
+# Character selection
+signal character_choices_updated()
+
 # Networking
 signal player_health_updated(player_id: int, health_remaining: int)
 signal enemy_destroyed(position: Vector2)

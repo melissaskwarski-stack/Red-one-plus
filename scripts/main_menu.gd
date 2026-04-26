@@ -99,4 +99,5 @@ func _on_connection_failed() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _start_game() -> void:
-	get_tree().change_scene_to_file("res://scenes/Level1.tscn")
+	# Go to character selection before loading Level1
+	get_tree().change_scene_to_file("res://scenes/CharacterSelect.tscn")
