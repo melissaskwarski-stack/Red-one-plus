@@ -1,20 +1,16 @@
 import { characters } from './characters.js';
 
 // ── Remove white PNG backgrounds (saturation-based chroma-key) ───────────────
+// Rotation is handled via CSS so this works on file:// (canvas pixel reads are
+// blocked by Chrome security on local files — CSS has no such restriction).
 function removeWhiteBg(img) {
     const process = () => {
-        const deg = parseInt(img.dataset.rotate || '0');
-        const sw = img.naturalWidth, sh = img.naturalHeight;
-        const cw = deg % 180 === 0 ? sw : sh;
-        const ch = deg % 180 === 0 ? sh : sw;
         const c = document.createElement('canvas');
-        c.width = cw; c.height = ch;
+        c.width = img.naturalWidth;
+        c.height = img.naturalHeight;
         const ctx2 = c.getContext('2d');
-        ctx2.translate(cw / 2, ch / 2);
-        ctx2.rotate(deg * Math.PI / 180);
-        ctx2.drawImage(img, -sw / 2, -sh / 2);
-        ctx2.resetTransform();
-        const id = ctx2.getImageData(0, 0, cw, ch);
+        ctx2.drawImage(img, 0, 0);
+        const id = ctx2.getImageData(0, 0, c.width, c.height);
         const d = id.data;
         for (let i = 0; i < d.length; i += 4) {
             const r = d[i], g = d[i + 1], b = d[i + 2];
