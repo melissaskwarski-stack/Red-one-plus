@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=3 uid="uid://mainmenu001"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_mainmenu"]
+
+; ── Root ──────────────────────────────────────────────────────────────────────
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_mainmenu")
+
+; ── Dark background ───────────────────────────────────────────────────────────
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.15, 1)
+
+; ── Centred layout box ────────────────────────────────────────────────────────
+
+[node name="CenterBox" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -250.0
+offset_right = 200.0
+offset_bottom = 250.0
+theme_override_constants/separation = 16
+
+; ── Title ─────────────────────────────────────────────────────────────────────
+
+[node name="TitleLabel" type="Label" parent="CenterBox"]
+text = "RED ONE PLUS"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
+
+[node name="Spacer" type="Control" parent="CenterBox"]
+custom_minimum_size = Vector2(0, 24)
+
+; ── Main buttons (HOST / JOIN) ────────────────────────────────────────────────
+
+[node name="MainButtons" type="VBoxContainer" parent="CenterBox"]
+theme_override_constants/separation = 12
+
+[node name="HostButton" type="Button" parent="CenterBox/MainButtons"]
+text = "HOST GAME"
+custom_minimum_size = Vector2(400, 52)
+
+[connection signal="pressed" from="CenterBox/MainButtons/HostButton" to="." method="_on_host_button_pressed"]
+
+[node name="JoinButton" type="Button" parent="CenterBox/MainButtons"]
+text = "JOIN GAME"
+custom_minimum_size = Vector2(400, 52)
+
+[connection signal="pressed" from="CenterBox/MainButtons/JoinButton" to="." method="_on_join_button_pressed"]
+
+; ── Host panel ────────────────────────────────────────────────────────────────
+
+[node name="HostPanel" type="VBoxContainer" parent="CenterBox"]
+visible = false
+theme_override_constants/separation = 12
+
+[node name="StatusLabel" type="Label" parent="CenterBox/HostPanel"]
+text = "Waiting for players... (1/3)"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.8, 0.8, 1, 1)
+
+[node name="StartButton" type="Button" parent="CenterBox/HostPanel"]
+text = "START  (solo)"
+visible = false
+custom_minimum_size = Vector2(400, 52)
+
+[connection signal="pressed" from="CenterBox/HostPanel/StartButton" to="." method="_on_start_button_pressed"]
+
+; ── Join panel ────────────────────────────────────────────────────────────────
+
+[node name="JoinPanel" type="VBoxContainer" parent="CenterBox"]
+visible = false
+theme_override_constants/separation = 12
+
+[node name="IPInput" type="LineEdit" parent="CenterBox/JoinPanel"]
+placeholder_text = "Enter host IP address..."
+custom_minimum_size = Vector2(400, 44)
+
+[node name="ConnectButton" type="Button" parent="CenterBox/JoinPanel"]
+text = "CONNECT"
+custom_minimum_size = Vector2(400, 52)
+
+[connection signal="pressed" from="CenterBox/JoinPanel/ConnectButton" to="." method="_on_connect_button_pressed"]
+
+[node name="JoinStatusLabel" type="Label" parent="CenterBox/JoinPanel"]
+text = "Connected!  Waiting for host to start..."
+horizontal_alignment = 1
+visible = false
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.4, 1, 0.4, 1)
