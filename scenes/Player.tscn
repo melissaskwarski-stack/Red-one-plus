@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://player001"]
+[gd_scene format=3 uid="uid://player001"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
-[ext_resource type="Script" path="res://scripts/skills.gd" id="2_skills"]
+[ext_resource type="Script" uid="uid://cbv1mt81mkpcx" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Script" uid="uid://brapftvis4eh7" path="res://scripts/skills.gd" id="2_skills"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(40, 20)
@@ -9,30 +9,31 @@ size = Vector2(40, 20)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_player"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/sync = true
+properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
-properties/1/sync = true
+properties/1/replication_mode = 1
 properties/2/path = NodePath(".:health")
 properties/2/spawn = true
-properties/2/sync = true
+properties/2/replication_mode = 1
 properties/3/path = NodePath(".:is_dead")
 properties/3/spawn = true
-properties/3/sync = true
+properties/3/replication_mode = 1
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=2032874230]
 script = ExtResource("1_player")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=949162941]
+scale = Vector2(0.07, 0.07)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=28459989]
 shape = SubResource("RectangleShape2D_player")
 
-[node name="GunPoint" type="Marker2D" parent="."]
-position = Vector2(20, 0)
+[node name="GunPoint" type="Marker2D" parent="." unique_id=1726045179]
+position = Vector2(0, -36)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1627980156]
 replication_config = SubResource("SceneReplicationConfig_player")
 
-[node name="Skills" type="Node" parent="."]
+[node name="Skills" type="Node" parent="." unique_id=56637064]
 script = ExtResource("2_skills")
