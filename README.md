@@ -138,3 +138,49 @@ Pull from `main` first to get the full project base, then build on top of:
 - Players have 3 health points — no respawn
 - All players dead → Game Over
 - All 3 waves cleared → Level Complete
+
+---
+
+## Characters
+
+Each player slot has a fixed character with unique stats and a skill activated with **Shift**.
+
+### P1 — Crimson Ace *(red plane)*
+| Stat    | Value |
+|---------|-------|
+| Speed   | 475 px/s |
+| Health  | 3 hits |
+| Attack  | 60 |
+
+**Skill: Afterburner** — Doubles movement speed for 3 seconds. Cooldown: 10s.
+> Best for flanking enemies and dodging incoming fire.
+
+---
+
+### P2 — Azure Guardian *(blue plane)*
+| Stat    | Value |
+|---------|-------|
+| Speed   | 325 px/s |
+| Health  | 5 hits |
+| Attack  | 50 |
+
+**Skill: Plasma Shield** — Absorbs the next incoming hit, or expires after 3 seconds. Cooldown: 15s.
+> Tankiest character. Use the shield to hold the front line.
+
+---
+
+### P3 — Gilded Striker *(gold plane)*
+| Stat    | Value |
+|---------|-------|
+| Speed   | 250 px/s |
+| Health  | 4 hits |
+| Attack  | 95 |
+
+**Skill: Multi-Barrage** — Fires 3 bullets in a spread pattern (-15°, 0°, +15°) for 5 seconds. Cooldown: 8s.
+> Highest damage output. Activate before entering a wave for maximum effect.
+
+---
+
+### Skill Cooldown Display
+The HUD shows the cooldown timer per player beneath their health bar.
+- `SHIFT: Afterburner` → `SHIFT: 9.4s` → `SHIFT: Afterburner` (ready again)
